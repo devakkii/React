@@ -1,0 +1,18 @@
+.body{
+    text-align: center;
+}
+.main{
+    background-color: brown;
+    text-align: center;
+}
+.list{
+   
+ display:flex;
+ flex-direction: row;
+ justify-content: space-evenly;
+ align-items: center;
+
+}
+.inp{
+    text-align: center;
+}
