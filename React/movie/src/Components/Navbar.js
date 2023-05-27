@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export default class Navbar extends Component {
   render() {
     return (
-      <div style={{color:"blue",
+      <div style={{backgroundColor:"skyblue",
       display:"flex",
       justifyContent:"center",
       alignItems:"center",
