@@ -9,13 +9,16 @@ export default class List extends Component {
       hover: "",
       movies: [],
       currPage: 1,
+      fav: localStorage.getItem("movies")?JSON.parse(localStorage.getItem("movies")).map(
+        (movieObj) => movieObj.id
+      ) : [],
     };
   }
 
   handleEnter = (id) => {
     this.setState({
       hover: id,
-    });
+    }); 
   };
   handleLeave = () => {
     this.setState({
@@ -77,6 +80,27 @@ export default class List extends Component {
        this.getUpdatedMovies
      );
   };
+  handleFavourites = (movieObj) => {
+    let favouriteMovies=JSON.parse(localStorage.getItem("movies")) || []
+    if (this.state.fav.includes(movieObj.id)) {
+      //if id already present -> remove
+      favouriteMovies=favouriteMovies.filter(movie=>movie.id!=movieObj.id)
+
+    }
+    else {
+      // else ->add 
+      favouriteMovies.push(movieObj);
+      
+    }
+
+    localStorage.setItem("movies", JSON.stringify(favouriteMovies));
+
+    let tempData = favouriteMovies.map(movieObj => movieObj.id);
+    this.setState({
+      fav:[...tempData]
+    })
+
+  }
 
   render() {
     console.log("render method called ");
@@ -111,8 +135,10 @@ export default class List extends Component {
                       {/* <p class="card-text movie-text">{movie.overview}</p> */}
                       <div className="button-wrapper">
                         {this.state.hover == movieObj.id && (
-                          <a href="#" className="btn btn-info movie-button">
-                            Add to Favourites
+                          <a className="btn btn-info movie-button" onClick={() => this.handleFavourites(movieObj)}>
+                            {
+                              (this.state.fav.includes(movieObj.id)? "Remove From Favourite" : "Add to Favourite")
+                            }
                           </a>
                         )}
                       </div>
@@ -124,18 +150,18 @@ export default class List extends Component {
             <nav aria-label="Page navigation example" className="pagination">
               <ul className="pagination">
                 <li className="page-item" onClick={this.handlePrevPage}>
-                  <a className="page-link" href="#">
+                  <button className="page-link">
                     Previous
-                  </a>
+                  </button>
                 </li>
                 <li className="page-item">
 
                   <a className="page-link">{this.state.currPage}</a>
                </li>
                 <li className="page-item" onClick={this.handleNextPage}>
-                  <a className="page-link" href="#">
+                  <button className="page-link" >
                     Next
-                  </a>
+                  </button>
                 </li>
               </ul>
             </nav>
